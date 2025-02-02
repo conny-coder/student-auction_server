@@ -13,7 +13,7 @@ export class UserModel extends TimeStamps {
   @prop()
   password: string;
 
-  @prop({ default: '' })
+  @prop({ default: '/uploads/avatar.png' })
   avatar: string;
 
   @prop({ default: 0 })
@@ -22,8 +22,8 @@ export class UserModel extends TimeStamps {
   @prop({ default: false })
   isAdmin: boolean;
 
-  @prop({ type: () => [Number], default: [] })
-  ratings: number[];
+  @prop({ default: 0 })
+  rating: number;
 
   @prop({ default: 'Користувач' })
   name: string;
