@@ -9,10 +9,6 @@ export class UserService {
     @InjectModel(UserModel) private readonly userModel: ModelType<UserModel>,
   ) {}
 
-  async create(name: string, email: string) {
-    return this.userModel.create({ name, email });
-  }
-
   async getAll() {
     return this.userModel.find().exec();
   }

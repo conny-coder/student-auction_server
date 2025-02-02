@@ -4,9 +4,27 @@ import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 export interface UserModel extends Base {}
 
 export class UserModel extends TimeStamps {
-  @prop({ required: true })
-  name: string;
+  @prop({ unique: true })
+  userName: string;
 
-  @prop({ unique: true, required: true })
+  @prop({ unique: true })
   email: string;
+
+  @prop()
+  password: string;
+
+  @prop({ default: '' })
+  avatar: string;
+
+  @prop({ default: 0 })
+  balance: number;
+
+  @prop({ default: false })
+  isAdmin: boolean;
+
+  @prop({ type: () => [Number], default: [] })
+  ratings: number[];
+
+  @prop({ default: 'Користувач' })
+  name: string;
 }
