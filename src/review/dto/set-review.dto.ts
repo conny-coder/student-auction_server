@@ -7,8 +7,8 @@ export class SetReviewDto {
   userId: Types.ObjectId;
 
   @IsNumber()
-  // @Min(1)
-  // @Max(5)
+  @Min(0)
+  @Max(5)
   rating: number;
 
   @IsString()

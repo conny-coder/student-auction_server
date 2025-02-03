@@ -5,6 +5,7 @@ import { getMongoDbConfig } from './config/mongo.config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ReviewModule } from './review/review.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ReviewModule } from './review/review.module';
     UserModule,
     AuthModule,
     ReviewModule,
+    NotificationModule,
   ],
 })
 export class AppModule {}

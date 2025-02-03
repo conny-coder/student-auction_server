@@ -1,15 +1,16 @@
-import { prop } from '@typegoose/typegoose';
+import { prop, Ref } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { Types } from 'mongoose';
+import { UserModel } from 'src/user/user.model';
 
 export interface ReviewModel extends Base {}
 
 export class ReviewModel extends TimeStamps {
-  @prop()
-  userId: Types.ObjectId;
+  @prop({ ref: () => UserModel })
+  userId: Ref<UserModel>;
 
-  @prop()
-  authorId: Types.ObjectId;
+  @prop({ ref: () => UserModel })
+  authorId: Ref<UserModel>;
 
   @prop()
   rating: number;
