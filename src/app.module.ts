@@ -6,6 +6,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ReviewModule } from './review/review.module';
 import { NotificationModule } from './notification/notification.module';
+import { AuctionModule } from './auction/auction.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { NotificationModule } from './notification/notification.module';
     AuthModule,
     ReviewModule,
     NotificationModule,
+    AuctionModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

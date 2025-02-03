@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Put } from '@nestjs/common';
+import { Controller, Get, HttpCode, Param, Put } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { User } from 'src/user/decorators/user.decorator';
@@ -8,9 +8,9 @@ import { NotificationService } from './notification.service';
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
-  @Get()
+  @Get(':userId')
   @Auth()
-  async getNotificationsByUser(@User('_id') userId: Types.ObjectId) {
+  async getNotificationsByUser(@Param('_id') userId: Types.ObjectId) {
     return this.notificationService.getNotificationsByUser(userId);
   }
 
@@ -20,14 +20,4 @@ export class NotificationController {
   async changeRead(@User('_id') userId: Types.ObjectId) {
     return this.notificationService.changeRead(userId);
   }
-  // @UsePipes(new ValidationPipe())
-  // @Post('set')
-  // @HttpCode(200)
-  // @Auth()
-  // async setRating(
-  //   @User('_id') authorId: Types.ObjectId,
-  //   @Body() dto: SetReviewDto,
-  // ) {
-  //   return this.reviewService.setReview(authorId, dto);
-  // }
 }
