@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
 import { InjectModel } from 'nestjs-typegoose';
@@ -26,6 +30,23 @@ export class AuctionService {
 
   async create(ownerId: Types.ObjectId, dto: CreateAuctionDto) {
     return await this.auctionModel.create({ ...dto, ownerId });
+  }
+
+  async updateCurrentBid(auctionId: Types.ObjectId, amount: number) {
+    const auction = await this.auctionModel.findById(auctionId).exec();
+    const neededNextBid = auction.currentBid + auction.step;
+
+    if (amount < neededNextBid) {
+      throw new BadRequestException('Ціна повинна бути більшою за поточну');
+    }
+
+    return await this.auctionModel
+      .findByIdAndUpdate(
+        auctionId,
+        { currentBid: amount, $inc: { bidCount: 1 } },
+        { new: true },
+      )
+      .exec();
   }
 
   async getAll(

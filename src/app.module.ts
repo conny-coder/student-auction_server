@@ -9,6 +9,7 @@ import { NotificationModule } from './notification/notification.module';
 import { AuctionModule } from './auction/auction.module';
 import { CategoryModule } from './category/category.module';
 import { FavouriteAuctionModule } from './favourite-auction/favourite-auction.module';
+import { BidModule } from './bid/bid.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { FavouriteAuctionModule } from './favourite-auction/favourite-auction.mo
     AuctionModule,
     CategoryModule,
     FavouriteAuctionModule,
+    BidModule,
   ],
 })
 export class AppModule {}
