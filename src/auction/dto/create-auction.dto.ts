@@ -8,6 +8,8 @@ import {
   IsPositive,
   IsNotEmpty,
   MinDate,
+  IsDateString,
+  IsEnum,
 } from 'class-validator';
 import { IsObjectId } from 'class-validator-mongo-object-id';
 import { Types } from 'mongoose';
@@ -34,11 +36,13 @@ export class CreateAuctionDto {
   @IsPositive({ message: 'Стартова ціна повинна бути більше нуля' })
   startPrice: number;
 
-  @IsDate({ message: 'Дата завершення повинна бути валідною датою' })
-  @MinDate(new Date(), { message: 'Дата завершення не може бути в минулому' })
-  endDate: Date;
+  @IsDateString({}, { message: 'Дата закінчення аукціону має бути датою' })
+  endTime: Date;
 
   @IsNumber({}, { message: 'Крок повинен бути числом' })
   @Min(10, { message: 'Крок повинен бути не менше 10' })
   step: number;
+
+  @IsEnum(['new', 'used'], { message: 'Умова повинна бути "new" або "used"' })
+  condition: 'new' | 'used';
 }

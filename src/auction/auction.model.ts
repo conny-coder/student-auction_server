@@ -43,4 +43,10 @@ export class AuctionModel extends TimeStamps {
 
   @prop({ default: 10 })
   step: number;
+
+  @prop({ default: 0 })
+  bidCount: number;
+
+  @prop()
+  condition: 'new' | 'used';
 }

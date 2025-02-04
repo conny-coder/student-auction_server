@@ -4,6 +4,7 @@ import { Types } from 'mongoose';
 import { InjectModel } from 'nestjs-typegoose';
 import { AuctionService } from 'src/auction/auction.service';
 import { CategoryModel } from './category.model';
+import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -26,6 +27,7 @@ export class CategoryService {
           id: category._id,
           name: category.name,
           count: count,
+          slug: category.slug,
         };
       }),
     );
@@ -33,8 +35,8 @@ export class CategoryService {
     return categoryCounts;
   }
 
-  async create(name: string) {
-    return await this.categoryModel.create({ name });
+  async create(dto: CreateCategoryDto) {
+    return await this.categoryModel.create({ ...dto });
   }
 
   async delete(id: Types.ObjectId) {

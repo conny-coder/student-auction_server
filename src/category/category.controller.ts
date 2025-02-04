@@ -29,12 +29,12 @@ export class CategoryController {
   @HttpCode(200)
   @Auth('admin')
   async create(@Body() dto: CreateCategoryDto) {
-    return this.categoryService.create(dto.name);
+    return this.categoryService.create(dto);
   }
 
   @Delete(':id')
   @HttpCode(200)
-  @Auth("admin")
+  @Auth('admin')
   async delete(@Param('id') id: Types.ObjectId) {
     return this.categoryService.delete(id);
   }
