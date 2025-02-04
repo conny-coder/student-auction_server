@@ -1,6 +1,7 @@
 import { prop, Ref } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { Types } from 'mongoose';
+import { AuctionModel } from 'src/auction/auction.model';
 import { UserModel } from 'src/user/user.model';
 import { TypeNotification } from './notification.interface';
 
@@ -19,6 +20,6 @@ export class NotificationModel extends TimeStamps {
   @prop({ default: false })
   isRead: boolean;
 
-  // @prop({ref: () => AuctionModel})
-  // auction: Ref<AuctionModel>;
+  @prop({ref: () => AuctionModel})
+  auction: Ref<AuctionModel>;
 }

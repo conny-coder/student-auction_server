@@ -10,7 +10,7 @@ export class NotificationController {
 
   @Get(':userId')
   @Auth()
-  async getNotificationsByUser(@Param('_id') userId: Types.ObjectId) {
+  async getNotificationsByUser(@Param('userId') userId: Types.ObjectId) {
     return this.notificationService.getNotificationsByUser(userId);
   }
 

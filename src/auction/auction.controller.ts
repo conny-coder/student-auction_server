@@ -11,6 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
+import { use } from 'passport';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { User } from 'src/user/decorators/user.decorator';
 import { TypeSortBy } from './auction.interface';
@@ -35,19 +36,23 @@ export class AuctionController {
   @Get()
   @Auth()
   async getAll(
+    @User('_id') userId: Types.ObjectId,
     @Query('category') category?: string,
     @Query('price') price?: string,
     @Query('condition') condition?: 'new' | 'used',
     @Query('search') search?: string,
     @Query('sortBy') sortBy?: TypeSortBy,
   ) {
-    return this.auctionService.getAll({
-      category,
-      price,
-      condition,
-      search,
-      sortBy,
-    });
+    return this.auctionService.getAll(
+      {
+        category,
+        price,
+        condition,
+        search,
+        sortBy,
+      },
+      userId,
+    );
   }
 
   @Put(':auctionId')
@@ -59,7 +64,10 @@ export class AuctionController {
 
   @Get(':auctionId')
   @Auth()
-  async getAuctionById(@Param('auctionId') auctionId: Types.ObjectId) {
-    return this.auctionService.getAuctionById(auctionId);
+  async getAuctionById(
+    @User('_id') userId: Types.ObjectId,
+    @Param('auctionId') auctionId: Types.ObjectId,
+  ) {
+    return this.auctionService.getAuctionById(userId, auctionId);
   }
 }
