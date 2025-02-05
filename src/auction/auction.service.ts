@@ -40,11 +40,7 @@ export class AuctionService {
     amount: number,
   ) {
     const auction = await this.auctionModel.findById(auctionId).exec();
-    const neededNextBid = auction.currentBid + auction.step;
-
-    if (amount < neededNextBid) {
-      throw new BadRequestException('Ціна повинна бути більшою за поточну');
-    }
+    
 
     return await this.auctionModel
       .findByIdAndUpdate(
