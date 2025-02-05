@@ -132,10 +132,37 @@ export class AuctionService {
     return sortedAuctions;
   }
 
-  async closeAuction(auctionId: Types.ObjectId) {
-    return await this.auctionModel
-      .findByIdAndUpdate(auctionId, { status: 'cancelled' }, { new: true })
-      .exec();
+  async completeAuction(userId: Types.ObjectId, auctionId: Types.ObjectId) {
+    const auction = await this.auctionModel.findById(auctionId).exec();
+
+    if (!userId.equals(auction.ownerId)) {
+      throw new BadRequestException('Ви не можете завершити цей аукціон');
+    }
+
+    if (!auction) {
+      throw new NotFoundException('Аукціон не знайдено');
+    }
+
+    auction.status = 'completed';
+    await auction.save();
+
+    await this.notificationService.createNotification({
+      auction: auction._id,
+      userId: auction.ownerId,
+      message: 'Ваш аукціон завершено.',
+      type: 'auction_ended',
+    });
+
+    if (auction.highestBidderId) {
+      await this.notificationService.createNotification({
+        auction: auction._id,
+        userId: auction.highestBidderId,
+        message: 'Ви виграли аукціон!',
+        type: 'auction_won',
+      });
+    }
+
+    return auction;
   }
 
   async getAuctionById(userId: Types.ObjectId, auctionId: Types.ObjectId) {

@@ -13,7 +13,6 @@ export class NotificationService {
   ) {}
 
   async getNotificationsByUser(userId: Types.ObjectId) {
-    console.log(userId);
     return await this.notificationModel.find({ userId }).exec();
   }
 

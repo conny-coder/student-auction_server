@@ -56,11 +56,14 @@ export class AuctionController {
     );
   }
 
-  @Put(':auctionId')
+  @Put('complete/:auctionId')
   @HttpCode(200)
   @Auth()
-  async closeAuction(@Param('auctionId') auctionId: Types.ObjectId) {
-    return this.auctionService.closeAuction(auctionId);
+  async completeAuction(
+    @User('_id') userId: Types.ObjectId,
+    @Param('auctionId') auctionId: Types.ObjectId,
+  ) {
+    return this.auctionService.completeAuction(userId, auctionId);
   }
 
   @Get(':auctionId')
