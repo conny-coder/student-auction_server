@@ -12,6 +12,7 @@ import { AuctionModel } from './auction.model';
 import { CreateAuctionDto } from './dto/create-auction.dto';
 import { Cron } from '@nestjs/schedule';
 import { NotificationService } from 'src/notification/notification.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuctionService {
@@ -20,6 +21,7 @@ export class AuctionService {
     private readonly auctionModel: ModelType<AuctionModel>,
     private readonly favouriteAuctionService: FavouriteAuctionService,
     private readonly notificationService: NotificationService,
+    private readonly userService: UserService,
   ) {}
 
   async getCountByCategory(categoryId: Types.ObjectId) {
@@ -32,7 +34,11 @@ export class AuctionService {
     return await this.auctionModel.create({ ...dto, ownerId });
   }
 
-  async updateCurrentBid(auctionId: Types.ObjectId, amount: number) {
+  async updateCurrentBid(
+    userId: Types.ObjectId,
+    auctionId: Types.ObjectId,
+    amount: number,
+  ) {
     const auction = await this.auctionModel.findById(auctionId).exec();
     const neededNextBid = auction.currentBid + auction.step;
 
@@ -43,7 +49,7 @@ export class AuctionService {
     return await this.auctionModel
       .findByIdAndUpdate(
         auctionId,
-        { currentBid: amount, $inc: { bidCount: 1 } },
+        { currentBid: amount, $inc: { bidCount: 1 }, highestBidderId: userId },
         { new: true },
       )
       .exec();
@@ -181,5 +187,31 @@ export class AuctionService {
         });
       }
     }
+  }
+
+  async delete(userId: Types.ObjectId, auctionId: Types.ObjectId) {
+    const owner = await this.userService.getById(userId);
+    const auction = await this.auctionModel.findById(auctionId).exec();
+
+    if (!auction) {
+      throw new NotFoundException('Аукціон не знайдено');
+    }
+    if (!userId.equals(new Types.ObjectId(auction.ownerId)) && !owner.isAdmin) {
+      throw new BadRequestException('Ви не можете видалити цей аукціон');
+    }
+
+    if (auction.highestBidderId) {
+      const highestBidder = await this.userService.getById(
+        auction.highestBidderId,
+      );
+
+      if (highestBidder) {
+        await this.userService.updateUser(highestBidder._id, {
+          balance: highestBidder.balance + auction.currentBid,
+        });
+      }
+    }
+
+    return await this.auctionModel.findByIdAndDelete(auctionId).exec();
   }
 }

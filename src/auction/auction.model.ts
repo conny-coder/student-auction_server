@@ -1,5 +1,6 @@
 import { prop, Ref } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
+import { Types } from 'mongoose';
 import { CategoryModel } from 'src/category/category.model';
 import { UserModel } from 'src/user/user.model';
 import { TypeStatus } from './auction.interface';
@@ -20,7 +21,7 @@ export class AuctionModel extends TimeStamps {
   category: Ref<CategoryModel>;
 
   @prop({ ref: () => UserModel })
-  ownerId: Ref<UserModel>;
+  ownerId: Types.ObjectId;
 
   @prop({ min: 0 })
   startPrice: number;
@@ -33,7 +34,7 @@ export class AuctionModel extends TimeStamps {
   currentBid: number;
 
   @prop({ ref: () => UserModel, default: null })
-  highestBidderId: Ref<UserModel>;
+  highestBidderId: Types.ObjectId;
 
   @prop({ type: () => Date })
   endTime: Date;

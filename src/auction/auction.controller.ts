@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -69,5 +70,15 @@ export class AuctionController {
     @Param('auctionId') auctionId: Types.ObjectId,
   ) {
     return this.auctionService.getAuctionById(userId, auctionId);
+  }
+
+  @Delete(':auctionId')
+  @HttpCode(200)
+  @Auth()
+  async deleteAuction(
+    @User('_id') userId: Types.ObjectId,
+    @Param('auctionId') auctionId: Types.ObjectId,
+  ) {
+    return this.auctionService.delete(userId, auctionId);
   }
 }

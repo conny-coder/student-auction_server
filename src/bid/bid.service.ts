@@ -15,8 +15,11 @@ export class BidService {
   ) {}
 
   async create(userId: Types.ObjectId, dto: CreateBidDto) {
-    
-    await this.auctionService.updateCurrentBid(dto.auctionId, dto.amount);
+    await this.auctionService.updateCurrentBid(
+      userId,
+      dto.auctionId,
+      dto.amount,
+    );
 
     return await this.bidModel.create({ ...dto, userId });
   }
