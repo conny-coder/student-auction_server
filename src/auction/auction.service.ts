@@ -39,9 +39,6 @@ export class AuctionService {
     auctionId: Types.ObjectId,
     amount: number,
   ) {
-    const auction = await this.auctionModel.findById(auctionId).exec();
-    
-
     return await this.auctionModel
       .findByIdAndUpdate(
         auctionId,
@@ -236,5 +233,19 @@ export class AuctionService {
     }
 
     return await this.auctionModel.findByIdAndDelete(auctionId).exec();
+  }
+
+  async updateTimer(auctionId: Types.ObjectId) {
+    const auction = await this.auctionModel.findById(auctionId).exec();
+
+    if (!auction) {
+      throw new NotFoundException('Аукціон не знайдено');
+    }
+
+    const newEndTime = new Date(auction.endTime.getTime() + 5 * 60 * 1000);
+
+    return await this.auctionModel
+      .findByIdAndUpdate(auctionId, { endTime: newEndTime }, { new: true })
+      .exec();
   }
 }

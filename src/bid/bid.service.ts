@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
 import { InjectModel } from 'nestjs-typegoose';
-import { ArgumentOutOfRangeError } from 'rxjs';
 import { AuctionService } from 'src/auction/auction.service';
 import { UserService } from 'src/user/user.service';
 import { BidModel } from './bid.model';
@@ -22,6 +21,10 @@ export class BidService {
       dto.auctionId,
     );
     const newBider = await this.userService.getById(userId);
+
+    if (auction.status === 'completed') {
+      throw new BadRequestException('Аукціон завершено');
+    }
 
     if (auction.highestBidderId && auction.highestBidderId.equals(userId)) {
       newBider.balance = newBider.balance + auction.currentBid;
@@ -63,6 +66,14 @@ export class BidService {
       dto.auctionId,
       dto.amount,
     );
+
+    const currentDate = new Date();
+    if (
+      auction.endTime &&
+      auction.endTime.getTime() - currentDate.getTime() < 5 * 60 * 1000
+    ) {
+      await this.auctionService.updateTimer(dto.auctionId);
+    }
 
     return await this.bidModel.create({ ...dto, userId });
   }
