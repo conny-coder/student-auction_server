@@ -11,6 +11,7 @@ import { CategoryModule } from './category/category.module';
 import { FavouriteAuctionModule } from './favourite-auction/favourite-auction.module';
 import { BidModule } from './bid/bid.module';
 import { ReportModule } from './report/report.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ReportModule } from './report/report.module';
     FavouriteAuctionModule,
     BidModule,
     ReportModule,
+    TransactionModule,
   ],
 })
 export class AppModule {}
