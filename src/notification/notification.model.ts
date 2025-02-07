@@ -14,12 +14,9 @@ export class NotificationModel extends TimeStamps {
   @prop()
   type: TypeNotification;
 
-  @prop()
-  message: string;
-
   @prop({ default: false })
   isRead: boolean;
 
-  @prop({ref: () => AuctionModel})
+  @prop({ ref: () => AuctionModel })
   auction: Ref<AuctionModel>;
 }

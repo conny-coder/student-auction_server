@@ -84,6 +84,8 @@ export class AuctionService {
 
     let sortQuery: any = {};
 
+    sortQuery.status = 1;
+
     if (filters.sortBy) {
       switch (filters.sortBy) {
         case 'newest':
@@ -142,15 +144,15 @@ export class AuctionService {
     await this.notificationService.createNotification({
       auction: auction._id,
       userId: auction.ownerId,
-      message: 'Ваш аукціон завершено.',
-      type: 'auction_ended',
+      type: auction.highestBidderId
+        ? 'auction_ended'
+        : 'auction_ended_no_buyer',
     });
 
     if (auction.highestBidderId) {
       await this.notificationService.createNotification({
         auction: auction._id,
         userId: auction.highestBidderId,
-        message: 'Ви виграли аукціон!',
         type: 'auction_won',
       });
     }
@@ -194,15 +196,15 @@ export class AuctionService {
       await this.notificationService.createNotification({
         auction: auction._id,
         userId: auction.ownerId,
-        message: `Ваш аукціон завершено.`,
-        type: 'auction_ended',
+        type: auction.highestBidderId
+          ? 'auction_ended'
+          : 'auction_ended_no_buyer',
       });
 
       if (auction.highestBidderId) {
         await this.notificationService.createNotification({
           auction: auction._id,
           userId: auction.highestBidderId,
-          message: `Ви виграли аукціон!`,
           type: 'auction_won',
         });
       }

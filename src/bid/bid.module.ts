@@ -5,6 +5,7 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import { BidModel } from './bid.model';
 import { AuctionModule } from 'src/auction/auction.module';
 import { UserModule } from 'src/user/user.module';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from 'src/user/user.module';
     ]),
     AuctionModule,
     UserModule,
+    NotificationModule,
   ],
   controllers: [BidController],
   providers: [BidService],
