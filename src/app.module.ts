@@ -12,6 +12,9 @@ import { FavouriteAuctionModule } from './favourite-auction/favourite-auction.mo
 import { BidModule } from './bid/bid.module';
 import { ReportModule } from './report/report.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { FileModule } from './file/file.module';
+import { ChatModule } from './chat/chat.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -31,6 +34,9 @@ import { TransactionModule } from './transaction/transaction.module';
     BidModule,
     ReportModule,
     TransactionModule,
+    FileModule,
+    ChatModule,
+    MessageModule,
   ],
 })
 export class AppModule {}

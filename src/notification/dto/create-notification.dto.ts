@@ -7,7 +7,7 @@ import { UserModel } from 'src/user/user.model';
 
 export class CreateNotificationDto {
   @IsObjectId({ message: 'Id користувача не коректний' })
-  userId: Ref<UserModel>;
+  userId: Types.ObjectId;
 
   @IsEnum(
     [
