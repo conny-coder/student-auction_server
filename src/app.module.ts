@@ -15,6 +15,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import { FileModule } from './file/file.module';
 import { ChatModule } from './chat/chat.module';
 import { MessageModule } from './message/message.module';
+import { SocketGateway } from './socket/socket.gateway';
 
 @Module({
   imports: [
@@ -38,5 +39,6 @@ import { MessageModule } from './message/message.module';
     ChatModule,
     MessageModule,
   ],
+  providers: [SocketGateway],
 })
 export class AppModule {}
