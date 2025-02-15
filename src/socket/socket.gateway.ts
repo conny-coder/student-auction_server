@@ -11,6 +11,8 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Types } from 'mongoose';
 import { MessageService } from 'src/message/message.service';
+import { MessageType } from 'src/message/message.interface';
+import { BadRequestException } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: {
@@ -43,19 +45,32 @@ export class SocketGateway
     data: {
       chatId: string;
       senderId: string;
-      text: string;
+      text?: string;
+      fileUrl?: string;
+      type: MessageType;
     },
   ) {
-    const { chatId, senderId, text } = data;
-    console.log(chatId, senderId, text);
+    const { chatId, senderId, text, type, fileUrl } = data;
+
+    if (!Types.ObjectId.isValid(chatId) || !Types.ObjectId.isValid(senderId)) {
+      throw new BadRequestException('Невірний формат chatId або senderId');
+    }
+
+    if (!text && !fileUrl) {
+      throw new BadRequestException(
+        'Повідомлення повинно містити текст або файл',
+      );
+    }
+
     const message = await this.messageService.create(
       new Types.ObjectId(senderId),
       {
         chatId: new Types.ObjectId(chatId),
+        type,
         text,
+        fileUrl,
       },
     );
-    console.log(message);
 
     this.server.to(chatId).emit('newMessage', message);
 
