@@ -45,4 +45,7 @@ export class CreateAuctionDto {
 
   @IsEnum(['new', 'used'], { message: 'Умова повинна бути "new" або "used"' })
   condition: 'new' | 'used';
+
+  @IsObjectId({ message: 'Локація має бути валідним ObjectId' })
+  location: Types.ObjectId;
 }

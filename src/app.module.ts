@@ -16,6 +16,7 @@ import { FileModule } from './file/file.module';
 import { ChatModule } from './chat/chat.module';
 import { MessageModule } from './message/message.module';
 import { SocketGateway } from './socket/socket.gateway';
+import { LocationModule } from './location/location.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { SocketGateway } from './socket/socket.gateway';
     FileModule,
     ChatModule,
     MessageModule,
+    LocationModule,
   ],
   providers: [SocketGateway],
 })

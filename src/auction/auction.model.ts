@@ -2,6 +2,7 @@ import { prop, Ref } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { Types } from 'mongoose';
 import { CategoryModel } from 'src/category/category.model';
+import { LocationModel } from 'src/location/location.model';
 import { UserModel } from 'src/user/user.model';
 import { TypeStatus } from './auction.interface';
 
@@ -50,4 +51,7 @@ export class AuctionModel extends TimeStamps {
 
   @prop()
   condition: 'new' | 'used';
+
+  @prop({ ref: () => LocationModel })
+  location: Ref<LocationModel>;
 }
