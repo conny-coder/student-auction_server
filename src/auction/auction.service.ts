@@ -30,6 +30,10 @@ export class AuctionService {
       .exec();
   }
 
+  async getAuctionsByUser(userId: Types.ObjectId) {
+    return await this.auctionModel.find({ ownerId: userId }).exec();
+  }
+
   async create(ownerId: Types.ObjectId, dto: CreateAuctionDto) {
     return await this.auctionModel.create({ ...dto, ownerId });
   }

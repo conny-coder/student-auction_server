@@ -17,7 +17,6 @@ import { UserModule } from 'src/user/user.module';
         },
       },
     ]),
-    AuctionModule,
     FavouriteAuctionModule,
     NotificationModule,
     UserModule,

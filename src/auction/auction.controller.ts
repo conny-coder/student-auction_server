@@ -56,6 +56,14 @@ export class AuctionController {
     );
   }
 
+  @Get('user/:userId')
+  @Auth()
+  async getAuctionsByUser(
+    @Param('userId') userId: Types.ObjectId,
+  ) {
+    return this.auctionService.getAuctionsByUser( userId);
+  }
+
   @Put('complete/:auctionId')
   @HttpCode(200)
   @Auth()

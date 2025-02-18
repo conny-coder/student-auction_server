@@ -23,5 +23,6 @@ import { NotificationModule } from 'src/notification/notification.module';
   ],
   controllers: [BidController],
   providers: [BidService],
+  exports: [BidService],
 })
 export class BidModule {}
