@@ -1,15 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ModelType } from '@typegoose/typegoose/lib/types';
-import { Types } from 'mongoose';
-import { InjectModel } from 'nestjs-typegoose';
+import { Model, Types } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateLocationDto } from './dto/create-location.dto';
-import { LocationModel } from './location.model';
+import { Location } from './location.model';
 
 @Injectable()
 export class LocationService {
   constructor(
-    @InjectModel(LocationModel)
-    private readonly locationModel: ModelType<LocationModel>,
+    @InjectModel(Location.name) private locationModel: Model<Location>,
   ) {}
 
   async create(dto: CreateLocationDto) {

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
+// @ts-ignore
 import { InjectModel } from 'nestjs-typegoose';
 import { AuctionModel } from 'src/auction/auction.model';
 import { FavouriteAuctionModel } from './favourite-auction.model';
@@ -47,6 +48,4 @@ export class FavouriteAuctionService {
     });
     return !!favouriteAuction;
   }
-
-  
 }

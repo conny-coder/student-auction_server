@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
+// @ts-ignore
 import { TypegooseModule } from 'nestjs-typegoose';
 import { UserModel } from './user.model';
 import { ScheduleModule } from '@nestjs/schedule';

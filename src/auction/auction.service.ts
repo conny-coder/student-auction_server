@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
+// @ts-ignore
 import { InjectModel } from 'nestjs-typegoose';
 import { FavouriteAuctionService } from 'src/favourite-auction/favourite-auction.service';
 import { TypeSortBy } from './auction.interface';

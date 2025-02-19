@@ -1,18 +1,13 @@
 import { Module } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { LocationController } from './location.controller';
-import { TypegooseModule } from 'nestjs-typegoose';
-import { LocationModel } from './location.model';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Location, LocationSchema } from './location.model';
 
 @Module({
   imports: [
-    TypegooseModule.forFeature([
-      {
-        typegooseClass: LocationModel,
-        schemaOptions: {
-          collection: 'Location',
-        },
-      },
+    MongooseModule.forFeature([
+      { name: Location.name, schema: LocationSchema },
     ]),
   ],
   controllers: [LocationController],

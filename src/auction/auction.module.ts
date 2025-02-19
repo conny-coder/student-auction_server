@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuctionService } from './auction.service';
 import { AuctionController } from './auction.controller';
+// @ts-ignore
 import { TypegooseModule } from 'nestjs-typegoose';
 import { AuctionModel } from './auction.model';
 import { FavouriteAuctionModule } from 'src/favourite-auction/favourite-auction.module';

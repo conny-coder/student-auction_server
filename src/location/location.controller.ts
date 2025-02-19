@@ -22,13 +22,13 @@ export class LocationController {
   @UsePipes(new ValidationPipe())
   @Post()
   @HttpCode(200)
-  @Auth()
+  //@Auth()
   async create(@Body() dto: CreateLocationDto) {
     return this.locationService.create(dto);
   }
 
   @Get()
-  @Auth()
+  //@Auth()
   async getAll() {
     return this.locationService.getAll();
   }

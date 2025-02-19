@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
-import { InjectModel } from 'nestjs-typegoose';
 import { MessageService } from 'src/message/message.service';
 import { ChatModel } from './chat.model';
 
 @Injectable()
 export class ChatService {
   constructor(
+    // @ts-ignore
     @InjectModel(ChatModel) private readonly chatModel: ModelType<ChatModel>,
     private readonly messageService: MessageService,
   ) {}

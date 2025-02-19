@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
+// @ts-ignore
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateReportDto } from './dto/create-report.dto';
 import { TypeReportStatus } from './report.interface';

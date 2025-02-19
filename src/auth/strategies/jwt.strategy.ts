@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ModelType } from '@typegoose/typegoose/lib/types';
-import { InjectModel } from 'nestjs-typegoose';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserModel } from 'src/user/user.model';
 
@@ -10,6 +9,7 @@ import { UserModel } from 'src/user/user.model';
 export class JwtStrategy extends PassportStrategy<any>(Strategy) {
   constructor(
     private readonly configService: ConfigService,
+    // @ts-ignore
     @InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>,
   ) {
     super({

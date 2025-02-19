@@ -6,6 +6,7 @@ import {
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { Types } from 'mongoose';
+// @ts-ignore
 import { InjectModel } from 'nestjs-typegoose';
 import { AuctionModel } from 'src/auction/auction.model';
 import { BidModel } from 'src/bid/bid.model';

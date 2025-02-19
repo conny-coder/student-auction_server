@@ -3,7 +3,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectModel } from 'nestjs-typegoose';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { hash, genSalt, compare } from 'bcryptjs';
 
@@ -15,6 +14,7 @@ import { RefreshTokenDto } from './dto/refreshToken.dto';
 @Injectable()
 export class AuthService {
   constructor(
+    // @ts-ignore
     @InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>,
     private readonly jwtService: JwtService,
   ) {}

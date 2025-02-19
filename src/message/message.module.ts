@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { MessageController } from './message.controller';
+// @ts-ignore
 import { TypegooseModule } from 'nestjs-typegoose';
 import { MessageModel } from './message.model';
 

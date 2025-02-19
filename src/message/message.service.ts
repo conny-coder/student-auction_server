@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
+// @ts-ignore
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { MessageModel } from './message.model';

@@ -1,12 +1,15 @@
-import { prop, Ref } from '@typegoose/typegoose';
-import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
-export interface LocationModel extends Base {}
+export type LocationDocument = HydratedDocument<Location>;
 
-export class LocationModel extends TimeStamps {
-  @prop()
+@Schema({ collection: 'Location', timestamps: true })
+export class Location {
+  @Prop({ required: true })
   city: string;
 
-  @prop()
+  @Prop({ required: true })
   region: string;
 }
+
+export const LocationSchema = SchemaFactory.createForClass(Location);

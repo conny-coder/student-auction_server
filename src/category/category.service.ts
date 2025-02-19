@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
-import { InjectModel } from 'nestjs-typegoose';
 import { AuctionService } from 'src/auction/auction.service';
 import { CategoryModel } from './category.model';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -9,6 +8,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 @Injectable()
 export class CategoryService {
   constructor(
+    // @ts-ignore
     @InjectModel(CategoryModel)
     private readonly categoryModel: ModelType<CategoryModel>,
     private readonly auctionService: AuctionService,
