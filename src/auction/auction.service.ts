@@ -110,9 +110,11 @@ export class AuctionService {
     }
 
     const favorites = await this.favouriteAuctionService.getAll(userId);
-    const favouriteAuctionIds = favorites.map((favorite) =>
-      favorite.auction._id.toString(),
-    );
+    console.log(1);
+    const favouriteAuctionIds = favorites.map((favorite) => {
+      console.log(favorite);
+      return favorite.auction?._id.toString() || '';
+    });
 
     const auctions = await this.auctionModel
       .find(filterQuery)
