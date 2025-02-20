@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
-import { Auth } from 'src/auth/decorators/auth.decorator';
+//import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { LocationService } from './location.service';
 
@@ -34,13 +34,13 @@ export class LocationController {
   }
 
   @Get('by-region/:region')
-  @Auth()
+  // @Auth()
   async getByRegion(@Param('region') region: string) {
     return this.locationService.getByRegion(region);
   }
 
   @Get(':id')
-  @Auth()
+  //@Auth()
   async getById(@Param('id') id: Types.ObjectId) {
     return this.locationService.getById(id);
   }
@@ -48,7 +48,7 @@ export class LocationController {
   @UsePipes(new ValidationPipe())
   @Put(':id')
   @HttpCode(200)
-  @Auth()
+  // @Auth()
   async update(
     @Param('id') id: Types.ObjectId,
     @Body() dto: CreateLocationDto,
@@ -58,7 +58,7 @@ export class LocationController {
 
   @Delete(':id')
   @HttpCode(200)
-  @Auth('admin')
+  //@Auth('admin')
   async delete(@Param('id') id: Types.ObjectId) {
     return this.locationService.delete(id);
   }
