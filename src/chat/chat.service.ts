@@ -17,7 +17,33 @@ export class ChatService {
   }
 
   async getAll(userId: Types.ObjectId) {
-    return this.chatModel.find({ $or: [{ user1: userId }, { user2: userId }] });
+    const chats = await this.chatModel
+      .find({ $or: [{ user1: userId }, { user2: userId }] })
+      .populate('user1 user2')
+      .exec();
+
+    const result = await Promise.all(
+      chats.map( async ( chat ) =>
+      {
+        const allMessages = await this.messageService.getAllByChat( chat._id );
+        const lastMessage = allMessages.length
+          ? allMessages[0]
+          : null;
+
+        const otherUser = chat.user1._id.equals( userId )
+          ? chat.user2
+          : chat.user1;
+
+        return {
+          chatId: chat._id,
+          otherUser,
+          lastMessage,
+          updatedAt: chat.updatedAt,
+        };
+      } )
+    );
+
+    return result;
   }
 
   async getById(chatId: Types.ObjectId) {
