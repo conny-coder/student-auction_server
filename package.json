@@ -9,7 +9,6 @@
     "node": "20.x"
   },
   "scripts": {
-    "postinstall": "npm install --force",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -28,6 +27,7 @@
     "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.10",
     "@nestjs/jwt": "^11.0.0",
+    "@nestjs/mongoose": "^11.0.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.10",
@@ -42,7 +42,6 @@
     "class-validator": "^0.14.1",
     "class-validator-mongo-object-id": "^1.4.0",
     "mongoose": "^8.9.6",
-    "nestjs-typegoose": "^7.1.38",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
