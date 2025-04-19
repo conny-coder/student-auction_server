@@ -37,6 +37,12 @@ export class UserController {
     return this.userService.changePassword(userId, dto);
   }
 
+  @Get('top-sellers')
+  @Auth()
+  async getTopSellersWeek() {
+    return this.userService.getTopSellers();
+  }
+
   @Get('profile/:id')
   @Auth()
   async getProfile(@Param('id') id: Types.ObjectId) {

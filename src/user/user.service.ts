@@ -39,6 +39,51 @@ export class UserService {
       .exec();
   }
 
+async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    const result = await this.userModel.aggregate([
+      {
+        $lookup: {
+          from: this.auctionModel.collection.name, // зазвичай 'auctions'
+          let: { userId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                status: 'completed',
+                highestBidderId: { $ne: null },
+                updatedAt: { $gte: oneMonthAgo },
+                $expr: { $eq: ['$ownerId', '$$userId'] },
+              },
+            },
+          ],
+          as: 'soldAuctions',
+        },
+      },
+      {
+        $addFields: {
+          soldCount: { $size: '$soldAuctions' },
+        },
+      },
+      {
+        $sort: { soldCount: -1 },
+      },
+      {
+        $limit: 8,
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          avatar: 1,
+        },
+      },
+    ]);
+
+    return result;
+  }
+
   async getById(id: Types.ObjectId) {
     const user = await this.userModel.findById(id).select('-password').exec();
 
