@@ -166,15 +166,24 @@ export class AuctionService {
     return auction;
   }
 
-  async getAuctionById(userId: Types.ObjectId, auctionId: Types.ObjectId) {
-    const auction = await this.auctionModel.findById(auctionId).exec();
+  async getAuctionById(
+    userId: Types.ObjectId,
+    auctionId: Types.ObjectId,
+  ) {
+    const auctionDoc = await this.auctionModel
+      .findById(auctionId)
+      .populate({
+        path: 'location',
+        select: 'city region _id',
+      })
+      .exec();
 
-    if (!auction) {
+    if (!auctionDoc) {
       throw new NotFoundException('Аукціон не знайдено');
     }
 
     const auctionWithIsFavourite = {
-      ...auction.toObject(),
+      ...auctionDoc.toObject(),
       isFavourite: await this.favouriteAuctionService.isFavourite(
         userId,
         auctionId,
