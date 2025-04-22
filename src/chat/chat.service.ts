@@ -13,6 +13,17 @@ export class ChatService {
   ) {}
 
   async create(user1: Types.ObjectId, user2: Types.ObjectId) {
+    const chat = await this.chatModel
+      .findOne({ $or: [
+      { user1: user1, user2: user2 },
+      { user1: user2, user2: user1 }
+      ] })
+      .exec();
+
+    if (chat) {
+      return chat;
+    }
+
     return this.chatModel.create({ user1, user2 });
   }
 
