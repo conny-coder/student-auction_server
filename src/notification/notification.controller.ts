@@ -14,10 +14,10 @@ export class NotificationController {
     return this.notificationService.getNotificationsByUser(userId);
   }
 
-  @Put('read')
+  @Put('read/:id')
   @HttpCode(200)
   @Auth()
-  async changeRead(@User('_id') userId: Types.ObjectId) {
-    return this.notificationService.changeRead(userId);
+  async changeRead(@User('_id') userId: Types.ObjectId, @Param('id') id: Types.ObjectId) {
+    return this.notificationService.changeRead(userId, id);
   }
 }

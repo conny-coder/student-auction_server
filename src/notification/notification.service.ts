@@ -19,9 +19,17 @@ export class NotificationService {
       .exec();
   }
 
-  async changeRead(userId: Types.ObjectId) {
-    return await this.notificationModel
-      .findOneAndUpdate({ userId }, { isRead: true }, { new: true })
+  async changeRead(
+    userId: Types.ObjectId,
+    notificationId: Types.ObjectId
+  )
+  {
+    return this.notificationModel
+      .findOneAndUpdate(
+        { _id: notificationId, userId },   
+        { $set: { isRead: true } },        
+        { new: true }                    
+      )
       .exec();
   }
 
