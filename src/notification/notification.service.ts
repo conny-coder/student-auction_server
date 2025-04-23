@@ -13,10 +13,12 @@ export class NotificationService {
   ) {}
 
   async getNotificationsByUser(userId: Types.ObjectId) {
-    return await this.notificationModel
-      .find({ userId })
-      .populate('auction')    
+    const notifs = await this.notificationModel
+      .find( { userId } )
+      .populate( "auction" )
       .exec();
+
+    return notifs.filter( ( n ) => n.auction !== null );
   }
 
   async changeRead(
