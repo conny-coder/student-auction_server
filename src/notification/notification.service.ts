@@ -40,4 +40,10 @@ export class NotificationService {
   async createNotification(dto: CreateNotificationDto) {
     return await this.notificationModel.create(dto);
   }
+
+  async countUnreadByUser(userId: Types.ObjectId): Promise<number> {
+    const allNotifications = await this.getNotificationsByUser(userId);
+
+    return allNotifications.filter((n) => !n.isRead).length;
+  }
 }
