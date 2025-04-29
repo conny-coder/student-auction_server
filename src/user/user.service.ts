@@ -131,8 +131,7 @@ async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
   }
 
   async changePassword(userId: Types.ObjectId, dto: ChangePasswordDto) {
-    const user = await this.getById(userId);
-
+    const user = await this.userModel.findById(userId).exec();
     const isMatch = await compare(dto.oldPassword, user.password);
     if (!isMatch) {
       throw new BadRequestException('Невірний старий пароль');
