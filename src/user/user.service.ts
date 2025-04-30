@@ -139,7 +139,7 @@ async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
       userName: newUserName,
     });
 
-    if (userWithNewUserName && String(userWithNewEmail._id) !== String(id)) {
+    if (userWithNewUserName && String(userWithNewUserName._id) !== String(id)) {
       throw new BadRequestException('Користувач з таким userName вже існує');
     }
     
