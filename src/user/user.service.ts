@@ -130,7 +130,7 @@ async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
     const newEmail = dto?.email || user.email;
     const userWithNewEmail = await this.userModel.findOne({ email: newEmail });
 
-    if (userWithNewEmail && userWithNewEmail._id !== id) {
+    if (userWithNewEmail && String(userWithNewEmail._id) !== String(id)) {
       throw new BadRequestException('Користувач з таким email вже існує');
     }
 
@@ -139,7 +139,7 @@ async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
       userName: newUserName,
     });
 
-    if (userWithNewUserName && userWithNewUserName._id !== id) {
+    if (userWithNewUserName && String(userWithNewEmail._id) !== String(id)) {
       throw new BadRequestException('Користувач з таким userName вже існує');
     }
     
