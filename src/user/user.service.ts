@@ -127,6 +127,22 @@ async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
       throw new NotFoundException('Користувач з таким id не знайдено');
     }
 
+    const newEmail = dto?.email || user.email;
+    const userWithNewEmail = await this.userModel.findOne({ email: newEmail });
+
+    if (userWithNewEmail && userWithNewEmail._id !== id) {
+      throw new BadRequestException('Користувач з таким email вже існує');
+    }
+
+    const newUserName = dto?.userName || user.userName;
+    const userWithNewUserName = await this.userModel.findOne({
+      userName: newUserName,
+    });
+
+    if (userWithNewUserName && userWithNewUserName._id !== id) {
+      throw new BadRequestException('Користувач з таким userName вже існує');
+    }
+    
     return this.userModel.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
 
