@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -63,5 +64,12 @@ export class UserController {
     @Body() dto: UpdateUserDto,
   ) {
     return this.userService.updateUser(id, dto);
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @Auth()
+  async delete(@Param('id') id: Types.ObjectId) {
+    return this.userService.delete(id);
   }
 }
