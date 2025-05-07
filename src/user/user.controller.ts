@@ -68,7 +68,7 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(200)
-  @Auth()
+  @Auth("admin")
   async delete(@Param('id') id: Types.ObjectId) {
     return this.userService.delete(id);
   }
