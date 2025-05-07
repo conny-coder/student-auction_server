@@ -160,4 +160,8 @@ async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
 
     return;
   }
+
+  async delete(id: Types.ObjectId) {
+    return await this.userModel.findByIdAndDelete(id).exec();
+  }
 }

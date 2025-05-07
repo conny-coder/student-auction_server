@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 import { TypeTransaction } from '../transaction.interface';

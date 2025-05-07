@@ -50,7 +50,7 @@ export class BidService {
 
   private validateAuction(auction) {
     if (auction.status === 'completed') {
-      throw new BadRequestException('Аукціон завершено');
+      throw new BadRequestException('Лот завершено');
     }
   }
 
