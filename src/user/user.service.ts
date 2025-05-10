@@ -97,7 +97,7 @@ async getTopSellers(): Promise<(UserModel & { soldCount: number })[]> {
   async getProfile(id: Types.ObjectId) {
     const user = await this.getById(id);
 
-    const bids = await this.bidModel.find({ userId: id }).exec();
+    const bids = await this.bidModel.distinct("auctionId", { userId: id });
     const winnerAuctions = await this.auctionModel
       .find({
         status: 'completed',
