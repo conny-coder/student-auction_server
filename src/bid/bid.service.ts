@@ -81,7 +81,7 @@ export class BidService {
         });
       }
 
-      if(previousBidder && previousBidder._id !== newBider._id) {
+      if(previousBidder && String(previousBidder._id) !== String(newBider._id)) {
         await this.notificationService.createNotification({
           auction: auction._id,
           userId: auction.highestBidderId,
