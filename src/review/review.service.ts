@@ -15,7 +15,7 @@ export class ReviewService {
   ) {}
 
   async getReviewsByUser(userId: Types.ObjectId) {
-    return this.reviewModel.find({ userId }).exec();
+    return this.reviewModel.find({ userId }).populate('author').exec();
   }
 
   async averageRatingByUser(userId: Types.ObjectId | string) {
@@ -36,7 +36,7 @@ export class ReviewService {
   async setReview(authorId: Types.ObjectId, dto: SetReviewDto) {
     const newReview = await this.reviewModel.create({
       ...dto,
-      authorId: authorId,
+      author: authorId,
     });
 
     const averageRating = await this.averageRatingByUser(dto.userId);

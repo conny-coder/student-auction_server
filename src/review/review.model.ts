@@ -10,7 +10,7 @@ export class ReviewModel extends TimeStamps {
   userId: Ref<UserModel>;
 
   @prop({ ref: () => UserModel })
-  authorId: Ref<UserModel>;
+  author: Ref<UserModel>;
 
   @prop()
   rating: number;
