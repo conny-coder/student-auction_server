@@ -31,7 +31,7 @@ export class BidService {
     this.validateAuction(auction);
     this.validateUser(newBider, dto.amount, auction);
 
-    await this.handlePreviousBidder(auction);
+    await this.handlePreviousBidder(auction, newBider);
 
     await this.userService.updateUser(userId, {
       balance: newBider.balance - dto.amount,
@@ -69,7 +69,7 @@ export class BidService {
     }
   }
 
-  private async handlePreviousBidder(auction) {
+  private async handlePreviousBidder(auction, newBider) {
     if (auction.highestBidderId) {
       const previousBidder = await this.userService.getById(
         auction.highestBidderId,
@@ -79,7 +79,9 @@ export class BidService {
         await this.userService.updateUser(auction.highestBidderId, {
           balance: previousBidder.balance + auction.currentBid,
         });
+      }
 
+      if(previousBidder && previousBidder._id !== newBider._id) {
         await this.notificationService.createNotification({
           auction: auction._id,
           userId: auction.highestBidderId,
