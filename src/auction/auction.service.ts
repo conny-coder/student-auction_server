@@ -146,7 +146,7 @@ export class AuctionService {
     //   (a, b) => +b.isFavourite - +a.isFavourite,
     // );
 
-    return auctions;
+    return auctionsWithFavorites;
   }
 
   async completeAuction(userId: Types.ObjectId, auctionId: Types.ObjectId) {
