@@ -19,5 +19,6 @@ import { UserModule } from 'src/user/user.module';
   ],
   controllers: [ReviewController],
   providers: [ReviewService],
+  exports: [ReviewService],
 })
 export class ReviewModule {}

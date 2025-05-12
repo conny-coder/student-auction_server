@@ -13,16 +13,31 @@ import { CreateAuctionDto } from './dto/create-auction.dto';
 import { Cron } from '@nestjs/schedule';
 import { NotificationService } from 'src/notification/notification.service';
 import { UserService } from 'src/user/user.service';
+import { BidModel } from 'src/bid/bid.model';
+import { PendingReviewService } from 'src/pending-review/pending-review.service';
 
 @Injectable()
 export class AuctionService {
   constructor(
     @InjectModel(AuctionModel)
     private readonly auctionModel: ModelType<AuctionModel>,
+    @InjectModel(BidModel)
+    private readonly bidModel: ModelType<BidModel>,
     private readonly favouriteAuctionService: FavouriteAuctionService,
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
+    private readonly pendingReviewService: PendingReviewService,
   ) {}
+
+  async getAuctionsUserBiddedOn(userId: Types.ObjectId) {
+    const auctionIds = await this.bidModel.distinct('auctionId', { userId });
+
+    const auctions = await this.auctionModel
+      .find({ _id: { $in: auctionIds } })
+      .exec();
+
+    return auctions;
+  }
 
   async getCountByCategory(categoryId: Types.ObjectId) {
     return await this.auctionModel
@@ -62,7 +77,9 @@ export class AuctionService {
     },
     userId: Types.ObjectId,
   ) {
-    const filterQuery: any = {};
+    const filterQuery: any = {
+      status: "active",         
+    };
 
     if (filters.price) {
       const [min, max] = filters.price.split('-');
@@ -88,7 +105,7 @@ export class AuctionService {
 
     let sortQuery: any = {};
 
-    sortQuery.status = 1;
+    // sortQuery.status = 1;
 
     if (filters.sortBy) {
       switch (filters.sortBy) {
@@ -110,7 +127,6 @@ export class AuctionService {
     }
 
     const favorites = await this.favouriteAuctionService.getAll(userId);
-    console.log(1);
     const favouriteAuctionIds = favorites.map((favorite) => {
       console.log(favorite);
       return favorite.auction?._id.toString() || '';
@@ -126,11 +142,11 @@ export class AuctionService {
       isFavourite: favouriteAuctionIds.includes(auction._id.toString()),
     }));
 
-    const sortedAuctions = auctionsWithFavorites.sort(
-      (a, b) => +b.isFavourite - +a.isFavourite,
-    );
+    // const sortedAuctions = auctions.sort(
+    //   (a, b) => +b.isFavourite - +a.isFavourite,
+    // );
 
-    return sortedAuctions;
+    return auctions;
   }
 
   async completeAuction(userId: Types.ObjectId, auctionId: Types.ObjectId) {
@@ -161,6 +177,18 @@ export class AuctionService {
         userId: auction.highestBidderId,
         type: 'auction_won',
       });
+
+      await this.pendingReviewService.createPendingReview(
+        auction.highestBidderId,
+        auction.ownerId,        
+        auction._id
+      );
+
+      await this.pendingReviewService.createPendingReview(
+        auction.ownerId,       
+        auction.highestBidderId, 
+        auction._id
+      );
     }
 
     return auction;

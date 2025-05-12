@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
 import { InjectModel } from 'nestjs-typegoose';
-import { AuctionModel } from 'src/auction/auction.model';
 import { FavouriteAuctionModel } from './favourite-auction.model';
 
 @Injectable()
@@ -33,11 +32,14 @@ export class FavouriteAuctionService {
     });
   }
 
-  async getAll(userId: Types.ObjectId) {
-    return await this.favouriteAuctionModel
-      .find({ userId })
-      .populate('auction')
+  async getAll( userId: Types.ObjectId )
+  {
+    const favourites = await this.favouriteAuctionModel
+      .find( { userId } )
+      .populate( 'auction' )
       .exec();
+
+    return favourites.filter( fav => fav.auction !== null );
   }
 
   async isFavourite(userId: Types.ObjectId, auctionId: Types.ObjectId) {

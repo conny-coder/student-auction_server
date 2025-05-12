@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { BidService } from './bid.service';
 import { BidController } from './bid.controller';
 import { TypegooseModule } from 'nestjs-typegoose';
@@ -17,12 +17,12 @@ import { NotificationModule } from 'src/notification/notification.module';
         },
       },
     ]),
-    AuctionModule,
-    UserModule,
+    forwardRef(() => AuctionModule),
     NotificationModule,
+    UserModule,
   ],
   controllers: [BidController],
   providers: [BidService],
-  exports: [BidService],
+  exports: [BidService, TypegooseModule],
 })
 export class BidModule {}

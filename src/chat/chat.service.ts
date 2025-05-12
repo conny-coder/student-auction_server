@@ -34,27 +34,28 @@ export class ChatService {
       .exec();
 
     const result = await Promise.all(
-      chats.map( async ( chat ) =>
-      {
-        const allMessages = await this.messageService.getAllByChat( chat._id );
-        const lastMessage = allMessages.length
-          ? allMessages[0]
-          : null;
+      chats
+        .filter(chat => chat.user1 && chat.user2) 
+        .map(async (chat) => {
+          const allMessages = await this.messageService.getAllByChat(chat._id);
+          const lastMessage = allMessages.length ? allMessages[0] : null;
 
-        const otherUser = chat.user1._id.equals( userId )
-          ? chat.user2
-          : chat.user1;
+          const otherUser = chat.user1._id.equals(userId)
+            ? chat.user2
+            : chat.user1;
 
-        return {
-          chatId: chat._id,
-          otherUser,
-          lastMessage,
-          updatedAt: chat.updatedAt,
-        };
-      } )
+          if (!otherUser) return null; 
+
+          return {
+            chatId: chat._id,
+            otherUser,
+            lastMessage,
+            updatedAt: chat.updatedAt,
+          };
+        })
     );
 
-    return result;
+    return result.filter(Boolean);
   }
 
   async getById(chatId: Types.ObjectId) {

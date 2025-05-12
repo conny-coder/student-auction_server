@@ -17,6 +17,9 @@ import { ChatModule } from './chat/chat.module';
 import { MessageModule } from './message/message.module';
 import { SocketGateway } from './socket/socket.gateway';
 import { LocationModule } from './location/location.module';
+import { PendingReviewService } from './pending-review/pending-review.service';
+import { PendingReviewController } from './pending-review/pending-review.controller';
+import { PendingReviewModule } from './pending-review/pending-review.module';
 
 @Module({
   imports: [
@@ -40,7 +43,9 @@ import { LocationModule } from './location/location.module';
     ChatModule,
     MessageModule,
     LocationModule,
+    PendingReviewModule,
   ],
   providers: [SocketGateway],
+  controllers: [],
 })
 export class AppModule {}

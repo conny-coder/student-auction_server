@@ -34,6 +34,7 @@ export class AuctionController {
     return this.auctionService.create(ownerId, dto);
   }
 
+
   @Get()
   @Auth()
   async getAll(
@@ -54,6 +55,12 @@ export class AuctionController {
       },
       userId,
     );
+  }
+
+  @Get('bided')
+  @Auth()
+  async getAuctionsBided(@User('_id') userId: Types.ObjectId,) {
+    return this.auctionService.getAuctionsUserBiddedOn(userId);
   }
 
   @Get('user/:userId')
