@@ -58,8 +58,20 @@ export class ChatService {
     return result.filter(Boolean);
   }
 
-  async getById(chatId: Types.ObjectId) {
-    const chat = await this.chatModel.findById(chatId).exec();
+  async getById(chatId: Types.ObjectId, userId: Types.ObjectId) {
+    const chat = await this.chatModel.findById(chatId).populate('user1 user2').exec();
+
+    const otherUser = chat.user1._id.equals( userId )
+      ? chat.user2
+      : chat.user1;
+
+    if ( !otherUser ) return null;
+
+    const chatData = {
+      chatId: chat._id,
+      otherUser,
+      updatedAt: chat.updatedAt,
+    };
 
     if (!chat) {
       throw new NotFoundException('Чат не знайдено');
@@ -68,7 +80,7 @@ export class ChatService {
     const messages = await this.messageService.getAllByChat(chatId);
 
     return {
-      chat,
+      chat: chatData,
       messages,
     };
   }

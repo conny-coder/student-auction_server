@@ -26,8 +26,8 @@ export class ChatController {
 
   @Get(':chatId')
   @Auth()
-  async getById(@Param('chatId') chatId: Types.ObjectId) {
-    return this.chatService.getById(chatId);
+  async getById(@Param('chatId') chatId: Types.ObjectId, @User('_id') userId: Types.ObjectId) {
+    return this.chatService.getById(chatId, userId);
   }
 
   @Delete(':chatId')
