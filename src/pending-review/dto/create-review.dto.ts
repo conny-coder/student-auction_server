@@ -10,8 +10,8 @@ export class CreateReviewDto {
   target: Types.ObjectId;
 
   @IsNumber()
-  @Min(1)
-  @Max(5)
+  @Min( 1, { message: 'Рейтинг не може бути менше 1' } )
+  @Max( 5, { message: 'Рейтинг не може бути більше 5' } )
   rating: number;
 
   @IsString({ message: 'Коментар має бути рядком' })
