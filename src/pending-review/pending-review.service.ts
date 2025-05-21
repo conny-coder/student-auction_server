@@ -34,6 +34,13 @@ export class PendingReviewService {
       .exec();
   }
 
+  async getPendingByChat(userId: Types.ObjectId, otherUserId: Types.ObjectId) {
+    return this.pendingReviewModel
+      .find({ reviewer: userId, target: otherUserId })
+      .populate( 'target auction' )
+      .exec();
+    }
+
   async createReviewAndClearPending(
     authorId: Types.ObjectId,
     dto: CreateReviewDto,

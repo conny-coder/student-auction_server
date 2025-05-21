@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
 } from '@nestjs/common';
 import { PendingReviewService } from './pending-review.service';
@@ -21,6 +22,15 @@ export class PendingReviewController {
   @Auth()
   async getPending(@User('_id') userId: Types.ObjectId,) {
     return this.pendingReviewService.getPendingForUser(userId);
+  }
+
+  @Get('pending/:userId')
+  @Auth()
+  async getPendingByChat(
+    @User('_id') userId: Types.ObjectId,
+    @Param('userId') otherUserId: Types.ObjectId,
+  ) {
+    return this.pendingReviewService.getPendingByChat(userId, otherUserId);
   }
 
   @Post('create')
