@@ -10,7 +10,7 @@ export class CreateReviewDto {
   target: Types.ObjectId;
 
   @IsNumber()
-  @Min( 0.5, { message: 'Рейтинг не може бути менше 1' } )
+  @Min( 0.5, { message: 'Рейтинг не може бути менше 0.5' } )
   @Max( 5, { message: 'Рейтинг не може бути більше 5' } )
   rating: number;
 
