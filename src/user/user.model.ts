@@ -27,4 +27,7 @@ export class UserModel extends TimeStamps {
 
   @prop({ default: 'Користувач' })
   name: string;
+
+  @prop({ default: false })
+  isConfirmed: boolean; 
 }

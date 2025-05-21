@@ -20,6 +20,7 @@ import { LocationModule } from './location/location.module';
 import { PendingReviewService } from './pending-review/pending-review.service';
 import { PendingReviewController } from './pending-review/pending-review.controller';
 import { PendingReviewModule } from './pending-review/pending-review.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { PendingReviewModule } from './pending-review/pending-review.module';
     ChatModule,
     MessageModule,
     LocationModule,
+    MailModule,
     PendingReviewModule,
   ],
   providers: [SocketGateway],
