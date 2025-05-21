@@ -5,6 +5,8 @@ import {
   HttpCode,
   Param,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PendingReviewService } from './pending-review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -33,6 +35,7 @@ export class PendingReviewController {
     return this.pendingReviewService.getPendingByChat(userId, otherUserId);
   }
 
+  @UsePipes(new ValidationPipe())
   @Post('create')
   @HttpCode(200)
   @Auth()
